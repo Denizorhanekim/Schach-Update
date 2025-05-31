@@ -7,6 +7,9 @@ public class Schach {
     public static void main(String[] args) {
         char[][] board = createBoard();
         Scanner scanner = new Scanner(System.in);
+        System.out.println("If you want to save and continue playing later,type: save instead of a target");
+        System.out.println("If you want to undo your move , type 'undo' instead of a target");
+        System.out.println("If you already have saved and now you want to continue to your prevoius game and load your board, type 'load' instead of a target ");
         boolean whiteTurn = true;
 
         while (true) {
@@ -44,6 +47,13 @@ public class Schach {
             int fromRow = Character.getNumericValue(from.charAt(1));
             char toCol = to.charAt(0);
             int toRow = Character.getNumericValue(to.charAt(1));
+
+            int fx = fromCol - 'A';
+            int fy = 8 - fromRow;
+            if (board[fy][fx] == '0') {
+                System.out.println("Das Startfeld ist leer. Bitte wähle ein Feld mit einer Figur.");
+                continue;
+            }
 
             if (isValidMove(board, fromCol, fromRow, toCol, toRow, whiteTurn)) {
                 history.push(copyBoard(board));
@@ -203,8 +213,8 @@ public class Schach {
                 if (dx == 0 && dy == 2 * dir && ((whiteTurn && fy == 6) || (!whiteTurn && fy == 1)) &&
                         board[fy + dir][fx] == '0' && target == '0') return true;
                 if (Math.abs(dx) == 1 && dy == dir && target != '0' &&
-                        ((whiteTurn && Character.isLowerCase(target)) || (!whiteTurn && Character.isUpperCase(target))))
-                    return true;
+                        ((whiteTurn && Character.isLowerCase(target)) || (!whiteTurn && Character.isUpperCase(target)))
+                ) return true;
                 break;
             case 'r':
                 if (dx == 0 || dy == 0) return isPathClear(board, fx, fy, tx, ty);
